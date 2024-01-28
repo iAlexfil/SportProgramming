@@ -2,7 +2,7 @@
 bool rbst(int a, int b){
     return rnd() % (a + b) < a;
 }
- 
+
 struct PersistentTreap{
     struct Node{
         int sz, sm;
@@ -13,19 +13,21 @@ struct PersistentTreap{
             lc = -1, rc = -1;
         }
     };
- 
+
     vector<Node> tree;
- 
+
     int size(int v){
         if(v == -1)return 0;
         return tree[v].sz;
     }
- 
+
     int sum(int v){
         if(v == -1)return 0;
         return tree[v].sm;
     }
- 
+
+    // create Node with .x == tree[v].x,
+    // and children - lc, rc
     int create_node(int v, int lc, int rc){
         int ind = tree.size();
         tree.emplace_back();
@@ -36,6 +38,8 @@ struct PersistentTreap{
         tree[ind].x = tree[v].x;
         return ind;
     }
+
+    // new node with .x = x
     int create_node(int x){
         int ind = tree.size();
         tree.emplace_back();
@@ -44,7 +48,8 @@ struct PersistentTreap{
         tree[ind].sm = x;
         return ind;
     }
- 
+
+    // returns a pair of vertices such that size(l) == k
     pii split(int v, int k){
         if(k == 0)return {-1, v};
         if(k >= tree[v].sz)return {v, -1};
@@ -59,7 +64,8 @@ struct PersistentTreap{
             return {u, r};
         }
     }
- 
+
+    // simply merge
     int merge(int l, int r){
         if(l == -1)return r;
         if(r == -1)return l;
